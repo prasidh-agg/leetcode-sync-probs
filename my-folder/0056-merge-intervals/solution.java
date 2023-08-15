@@ -24,10 +24,7 @@ class Solution {
         }
 
         int[][] array = new int[result.size()][2];
-        for (int i = 0; i < result.size(); i++) {
-            array[i] = result.get(i);
-        }
-
+        result.toArray(array);
         return array;
 
     }
