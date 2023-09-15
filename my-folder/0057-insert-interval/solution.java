@@ -1,0 +1,22 @@
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> ans = new ArrayList<>();
+        for (int[] slot : intervals) {
+            if (slot[1] < newInterval[0]) {
+                ans.add(slot);
+            } 
+            else if (slot[0] > newInterval[1]) { 
+                ans.add(newInterval);
+                newInterval = slot;
+            } 
+            else{
+                newInterval[0] = Math.min(newInterval[0], slot[0]);
+                newInterval[1] = Math.max(newInterval[1], slot[1]);
+            }
+        }
+        // add the last interval
+        ans.add(newInterval);
+        return ans.toArray(new int[ans.size()][]);
+    }
+}
+
