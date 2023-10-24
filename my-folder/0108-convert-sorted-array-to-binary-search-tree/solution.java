@@ -13,26 +13,20 @@
  *     }
  * }
  */
-class Solution {
+ class Solution{
+
     public TreeNode sortedArrayToBST(int[] nums) {
-        return helper(nums, 0, nums.length - 1);
+        return CreateBST(nums, 0, nums.length - 1);
     }
-    private static TreeNode helper(int[] nums, int left, int right){
 
-        if(left > right) return null;
-
-        int mid = left + (right - left)/2;
-
-        // create root with the mid node
+    private TreeNode CreateBST(int nums[], int l, int r) {
+        if (l > r) { 
+            return null;
+        }
+        int mid = l + (r - l) / 2;
         TreeNode root = new TreeNode(nums[mid]);
-
-        // create left tree with the array to the left of the mid
-        root.left = helper(nums, left, mid - 1);
-
-        // create right tree with the array to the right of the mid
-        root.right = helper(nums, mid + 1, right);
-        
+        root.left = CreateBST(nums, l, mid - 1);
+        root.right = CreateBST(nums, mid + 1, r); 
         return root;
     }
-}
-
+ }
