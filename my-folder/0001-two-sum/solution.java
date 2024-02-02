@@ -1,15 +1,14 @@
 class Solution {
-    public int[] twoSum(int[] n, int t) {
+    public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < n.length; i++) {
-            int diff = t - n[i];
-            //if this diff exists in the map, then return array of current index plus diff's index
-            if (map.containsKey(diff)) {
+
+        for(int i = 0; i < nums.length; i++){
+            int diff = target - nums[i];
+            if(map.containsKey(diff)){
                 return new int[]{i, map.get(diff)};
             }
-            //iff diff doesn't exist in map, then add n[i] to the map
-            map.put(n[i], i);
+            map.put(nums[i], i);
         }
-        return new int[]{0, 0};
+        return new int[]{0,0};
     }
 }
