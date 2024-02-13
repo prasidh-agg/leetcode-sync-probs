@@ -1,24 +1,21 @@
 class Solution {
     public List<String> generateParenthesis(int n) {
-        List<String> ans = new ArrayList<>();
-        helper(n, ans, new StringBuilder(), 0, 0);
-        return ans;
+        List<String> res = new ArrayList<>();
+        backtrack(0, 0, n, "", res);
+        return res;
     }
-    private static void helper(int n, List<String> ans, StringBuilder curr, int open, int close){
-
-        if(close > open) return;
-
-        if(close == n && open == n){
-            ans.add(new String(curr.toString()));
+    public void backtrack(int open, int close, int n, String curr, List<String> res){
+        if(curr.length() == 2 * n ){
+            res.add(curr);
             return;
         }
-        if(open != n){
-            curr.append("(");
-            helper(n, ans, curr, open + 1, close);
-            curr.deleteCharAt(curr.length() - 1);
+
+        if(open < n){
+            backtrack(open + 1, close, n, curr + "(", res);
         }
-        curr.append(")");
-        helper(n, ans, curr, open, close + 1);
-        curr.deleteCharAt(curr.length() - 1);
+        if(close < open){
+            backtrack(open, close + 1, n, curr + ")", res);
+        }
+        
     }
 }
