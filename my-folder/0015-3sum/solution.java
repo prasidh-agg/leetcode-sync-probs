@@ -1,38 +1,29 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
         Arrays.sort(nums);
 
-        List<List<Integer>> result = new ArrayList<>();
-
         for(int i = 0; i < nums.length - 2; i++){
-
-            // because the array is sorted, if two adj elements are equal, we skip
-            // the second one because we have already found the answer for the first
-            // one
             if(i > 0 && nums[i] == nums[i - 1]) continue;
 
-            // because the array is sorted, if the first fixed number is positive, 
-            // there is no way we can find a negative going forward so that the sum
-            // negates to 0.
-            if(nums[i] > 0) return result;
+            int n1 = nums[i];
+            if(n1 > 0) break;
 
-            int diff = -nums[i], lo = i + 1, high = nums.length - 1;
-            while(lo < high){
-                if(nums[lo] + nums[high] == diff){
-                    List<Integer> trip = Arrays.asList(nums[i], nums[lo], nums[high]);
-                    result.add(trip);
+            int target = -1 * n1;
 
-                    //take care of duplicates
-                    while(lo < high && nums[lo] == nums[lo + 1]) lo++;
-                    while(lo < high && nums[high] == nums[high - 1]) high--;
+            int l = i + 1, r = nums.length - 1;
 
-                    lo++;
-                    high--;
+            while(l < r){
+                if(nums[l] + nums[r] > target) r--;
+                else if(nums[l] + nums[r] < target) l++;
+                else{
+                    while(l < r && nums[l] == nums[l+1]) l++;
+                    while(l < r && nums[r] == nums[r-1]) r--;
+                    ans.add(new ArrayList<>(Arrays.asList(n1, nums[l++], nums[r--])));
                 }
-                else if(nums[lo] + nums[high] > diff) high--;
-                else lo++;
             }
+            
         }
-        return result;
+        return ans;
     }
 }
