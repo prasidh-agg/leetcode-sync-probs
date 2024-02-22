@@ -1,11 +1,12 @@
 class Solution {
     public int largestAltitude(int[] gain) {
         int sum = 0;
-        int max = 0;
+        int maxHt = 0;
+
         for(int g : gain){
             sum += g;
-            max = Math.max(sum, max);
+            maxHt = Math.max(sum, maxHt);
         }
-        return max;
+        return maxHt;
     }
 }
