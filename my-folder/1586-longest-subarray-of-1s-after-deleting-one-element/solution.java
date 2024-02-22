@@ -1,15 +1,15 @@
 class Solution {
     public int longestSubarray(int[] nums) {
-        int zeroCount = 0, longestWindow = 0, start = 0;
-        for(int i = 0; i < nums.length; i++){
-            zeroCount += nums[i] == 0 ? 1 : 0;
+        int zeroCount = 0, longestWindow = 0, left = 0;
+        for(int right = 0; right < nums.length; right++){
+            zeroCount += nums[right] == 0 ? 1 : 0;
             while(zeroCount > 1){
-                if(nums[start] == 0){
+                if(nums[left] == 0){
                     zeroCount--;
                 }
-                start++;
+                left++;
             }
-            longestWindow = Math.max(longestWindow, i - start);
+            longestWindow = Math.max(longestWindow, right - left);
         }
         return longestWindow;
     }
