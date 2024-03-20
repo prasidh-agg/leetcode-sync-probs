@@ -1,23 +1,27 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-
-        int[] prev = new int[m];
-
-        for(int i = 0; i < m; i++){
-            int[] currRow = new int[n];
-
-            for(int j = 0; j < n; j++){
-                if(i == 0 && j == 0) currRow[j] = 1;
-                else{
-                    int up = 0, left = 0;
-                    if(i > 0) up = prev[j];
-                    if(j > 0) left = currRow[j-1];
-                    currRow[j] = up + left;
-                }
-            }
-            prev = currRow.clone();
+        int[][] dp = new int[m][n];
+        for(int[] row: dp){
+            Arrays.fill(row, -1);
         }
-        return prev[n-1];
+        return solve(m - 1, n - 1, dp);
     }
-    
+    public int solve(int row, int col, int[][] dp){
+        //reached the end
+        if(row == 0 && col == 0){
+            return 1;
+        }
+
+        if(row < 0 || col < 0){
+            return 0;
+        }
+
+        if(dp[row][col] != -1) return dp[row][col];
+
+        int up = solve(row - 1, col, dp);
+
+        int left = solve(row, col - 1, dp);
+
+        return dp[row][col] = up + left;
+    }
 }
