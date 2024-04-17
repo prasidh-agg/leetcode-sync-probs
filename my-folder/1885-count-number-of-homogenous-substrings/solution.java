@@ -1,18 +1,21 @@
 class Solution {
-    private int MOD = 1000000007;
     public int countHomogenous(String s) {
-        char[] ch = s.toCharArray();
-        long result = 0;
-        long len = 0;
-        for(int i = 0; i < ch.length; i++){
-            if(i > 0 && ch[i] == ch[i-1]){
-                len += 1;
+        int MOD = 1000000007;
+        long res = 0;
+        char[] c = s.toCharArray();
+        int l = 0;
+        for (int r = 0; r < c.length; r++) {
+            if (c[r] != c[l]) {
+                res += ((long) (r - l) * (r - l + 1) / 2) % MOD; // Use long to prevent overflow
+                res %= MOD; // Take modulo at each step to prevent overflow
+                l = r;
             }
-            else{
-                len = 1;
-            }
-            result = (result + len) % MOD;
         }
-        return (int)result;
+
+        res += ((long) (c.length - l) * (c.length - l + 1) / 2) % MOD;
+        res %= MOD;
+
+        return (int) res;
     }
 }
+
