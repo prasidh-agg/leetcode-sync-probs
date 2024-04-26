@@ -1,37 +1,48 @@
 class Solution {
     public String minWindow(String s, String t) {
-        Map<Character, Integer> map = new HashMap<>();
+        int n = s.length();
 
-        //build a map for what do we need
-        for(char c : t.toCharArray()){
-            map.put(c, map.getOrDefault(c, 0) + 1);
-        }
+        if (t.length() > n)
+            return "";
 
-        //keep a count of how many chars have matched 
-        int matched = 0;
-        int left = 0;
-        int minLen = s.length() + 1;
-        int minStart = 0;
+        int[] mp = new int[128];
 
-        for(int right = 0; right < s.length(); right++){
-            char rightChar = s.charAt(right);
-            if(map.containsKey(rightChar)){
-                map.put(rightChar, map.get(rightChar) - 1);
-                if(map.get(rightChar) == 0) matched++;
+        // build frequency map
+        for (char ch : t.toCharArray())mp[ch - 'A']++;
+
+        int requiredCount = t.length();
+        int i = 0, j = 0;
+
+        int minWindowSize = Integer.MAX_VALUE;
+        int start_i = 0;
+
+        while (j < n) {
+            char ch = s.charAt(j);
+
+            if (mp[ch - 'A'] > 0) requiredCount--;
+
+            mp[ch - 'A']--;
+
+            while (requiredCount == 0) {
+
+                int currWindowSize = j - i + 1;
+
+                if (minWindowSize > currWindowSize) {
+                    minWindowSize = currWindowSize;
+                    start_i = i;
+                }
+
+                char startChar = s.charAt(i);
+                mp[startChar - 'A']++;
+
+                if(mp[startChar - 'A'] > 0)requiredCount++;
+
+                i++;
             }
 
-            while(matched == map.size()){
-                if(right - left + 1 < minLen){
-                    minLen = right - left + 1;
-                    minStart = left;
-                }
-                char deleted = s.charAt(left++);
-                if(map.containsKey(deleted)){
-                    if(map.get(deleted) == 0) matched--;
-                    map.put(deleted, map.get(deleted) + 1);
-                }
-            }
+            j++;
         }
-        return minLen > s.length() ? "" : s.substring(minStart, minStart + minLen);
+
+        return minWindowSize == Integer.MAX_VALUE ? "" : s.substring(start_i, start_i + minWindowSize);
     }
 }
