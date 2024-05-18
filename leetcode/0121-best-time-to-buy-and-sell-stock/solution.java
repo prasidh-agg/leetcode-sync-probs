@@ -3,15 +3,15 @@ class Solution {
         int maxProfit = 0;
         int leftMin = prices[0];
 
-        for(int price : prices) {
+        for(int i = 1; i < prices.length; i++) {
 
             //check if our leftMin is still the smallest, just recalc max profit.. by finding cost of selling now
-            if(price > leftMin) {
-                maxProfit = Math.max(maxProfit, price - leftMin);
+            if(prices[i] > leftMin) {
+                maxProfit = Math.max(maxProfit, prices[i] - leftMin);
             } 
             // this means we found a new leftMin
             else {
-                leftMin = price;
+                leftMin = prices[i];
             }
         }
 
