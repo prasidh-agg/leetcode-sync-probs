@@ -1,27 +1,24 @@
 class Solution {
-    int maxLen = 0;
-    int lo = 0;
     public String longestPalindrome(String s) {
-        char[] input = s.toCharArray();
-        if(s.length() < 2) {
-            return s;
+        if(s.length() <= 1) return s;
+
+        String maxStr = s.substring(0, 1);
+
+        for(int i = 0; i < s.length() - 1; i++){
+            String odd = expand(s, i, i);
+            String even = expand(s, i, i + 1);
+
+            if(odd.length() > maxStr.length()) maxStr = odd;
+            if(even.length() > maxStr.length()) maxStr = even;
         }
-        
-        for(int i = 0; i<input.length; i++) {
-            expandPalindrome(input, i, i);
-            expandPalindrome(input, i, i+1);
-        }
-        return s.substring(lo, lo+maxLen);
+        return maxStr;
     }
-    
-    public void expandPalindrome(char[] s, int j, int k) {
-        while(j >= 0 && k < s.length && s[j] == s[k]) {
-            j--;
-            k++;
+
+    private String expand(String s, int left, int right){
+        while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+            left--;
+            right++;
         }
-        if(maxLen < k - j - 1) {
-            maxLen = k - j - 1;
-            lo = j+1;
-        }
+        return s.substring(left + 1, right);
     }
 }
